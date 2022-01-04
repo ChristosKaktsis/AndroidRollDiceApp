@@ -1,0 +1,42 @@
+package com.example.kotlinstart
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val roll: Button = findViewById(R.id.rollbutton)
+        roll.setOnClickListener { rollDice() }
+    }
+
+    private fun rollDice() {
+        val diceImage: ImageView = findViewById(R.id.imageView)
+        val toast = Toast.makeText(this, "DICE ROLLED!", Toast.LENGTH_SHORT)
+        val dice = Dice(6)
+        val diceRoll: Int = dice.roll()
+        val drawableResource = when (diceRoll) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            else -> R.drawable.dice_6
+        }
+
+        diceImage.setImageResource(drawableResource)
+        diceImage.contentDescription = diceRoll.toString()
+        toast.show()
+    }
+}
+
+class Dice(private val numSides: Int) {
+    fun roll(): Int {
+        return (1..numSides).random()
+    }
+}
